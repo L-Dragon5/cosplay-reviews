@@ -1,15 +1,16 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
 import ApplicationLogo from '@/components/ApplicationLogo';
 import AuthCard from '@/components/AuthCard';
 import AuthSessionStatus from '@/components/AuthSessionStatus';
 import Button from '@/components/Button';
-import GuestLayout from '@/components/layouts/GuestLayout';
 import Input from '@/components/Input';
 import InputError from '@/components/InputError';
 import Label from '@/components/Label';
-import Link from 'next/link';
+import GuestLayout from '@/components/layouts/GuestLayout';
 import { useAuth } from '@/hooks/auth';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 const PasswordReset = () => {
   const router = useRouter();
