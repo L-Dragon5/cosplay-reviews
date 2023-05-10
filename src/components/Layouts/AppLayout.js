@@ -1,24 +1,25 @@
-import Navigation from '@/components/Layouts/Navigation'
-import { useAuth } from '@/hooks/auth'
+import { Flex } from '@chakra-ui/react';
+import Head from 'next/head';
 
-const AppLayout = ({ header, children }) => {
-    const { user } = useAuth({ middleware: 'auth' })
+import Footer from '@/components/elements/Footer';
+import Navigation from '@/components/elements/Navigation';
 
-    return (
-        <div className="min-h-screen bg-gray-100">
-            <Navigation user={user} />
+const AppLayout = ({ title, children }) => {
+  const displayTitle = `${title} | CR`;
 
-            {/* Page Heading */}
-            <header className="bg-white shadow">
-                <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {header}
-                </div>
-            </header>
+  return (
+    <Flex direction="column" minHeight="100vh" maxHeight="100vh">
+      <Head>
+        <title>{displayTitle}</title>
+      </Head>
 
-            {/* Page Content */}
-            <main>{children}</main>
-        </div>
-    )
-}
+      <Navigation />
+      <Flex direction="column" w="100%" h="calc(100vh - 80px)" flexGrow="1">
+        {children}
+      </Flex>
+      <Footer />
+    </Flex>
+  );
+};
 
-export default AppLayout
+export default AppLayout;
