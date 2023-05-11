@@ -14,7 +14,7 @@ const AppLayout = ({ title, children }) => {
       </Head>
 
       <Navigation />
-      <Flex direction="column" w="100%" h="calc(100vh - 80px)" flexGrow="1">
+      <Flex direction="column" w="100%" flexGrow="1">
         {children}
       </Flex>
       <Footer />

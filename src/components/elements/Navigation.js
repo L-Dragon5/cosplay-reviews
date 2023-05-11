@@ -16,36 +16,38 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
 import { useAuth } from '@/hooks/auth';
 
-const links = ['Reviews'];
+const links = [
+  {
+    label: 'Reviews',
+    href: '/reviews/',
+  },
+];
 
-const NavLink = ({ children }) => (
+const NavLink = ({ href, children }) => (
   <Link
     px={2}
     py={1}
     rounded="md"
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
+      bg: useColorModeValue('brandAlternative.400', 'gray.700'),
     }}
-    href="#"
+    href={href}
   >
     {children}
   </Link>
 );
 
 const Navigation = () => {
-  const router = useRouter();
-
   const { user, logout } = useAuth();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+    <Box bg={useColorModeValue('brandPrimary.300', 'gray.900')} px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
         <IconButton
           size="md"
@@ -55,10 +57,14 @@ const Navigation = () => {
           onClick={isOpen ? onClose : onOpen}
         />
         <HStack spacing={8} alignItems="center">
-          <Box>Logo</Box>
+          <Link href="/" _hover={{ textDecoration: 'none' }}>
+            Logo
+          </Link>
           <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
             {links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
+              <NavLink key={link.label} href={link.href}>
+                {link.label}
+              </NavLink>
             ))}
           </HStack>
         </HStack>
@@ -94,7 +100,9 @@ const Navigation = () => {
         <Box pb={4} display={{ md: 'none' }}>
           <Stack as="nav" spacing={4}>
             {links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
+              <NavLink key={link.label} href={link.href}>
+                {link.label}
+              </NavLink>
             ))}
           </Stack>
         </Box>

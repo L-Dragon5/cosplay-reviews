@@ -11,8 +11,8 @@ import { FaInstagram } from 'react-icons/fa';
 export default function SmallWithSocial() {
   return (
     <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}
+      bg={useColorModeValue('gray.800', 'gray.900')}
+      color={useColorModeValue('white', 'gray.200')}
     >
       <Container
         as={Stack}
@@ -27,14 +27,14 @@ export default function SmallWithSocial() {
         <Stack direction={'row'} spacing={6}>
           <IconButton
             rounded={'full'}
-            bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
+            bg={useColorModeValue('whiteAlpha.200', 'whiteAlpha.100')}
             aria-label="Instagram"
             icon={<FaInstagram />}
             size="lg"
             href="#"
             transition={'background 0.3s ease'}
             _hover={{
-              bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
+              bg: useColorModeValue('whiteAlpha.400', 'whiteAlpha.200'),
             }}
           />
         </Stack>

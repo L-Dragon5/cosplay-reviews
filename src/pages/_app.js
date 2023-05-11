@@ -75,8 +75,8 @@ const newTheme = {
     global: (props) => ({
       body: {
         fontFamily: 'body',
-        color: mode('brandGray', 'whiteAlpha.900')(props),
-        bg: mode('white', 'gray.800')(props),
+        color: mode('brandGray.900', 'whiteAlpha.900')(props),
+        bg: mode('gray.100', 'gray.800')(props),
         lineHight: 'base',
       },
       a: {
