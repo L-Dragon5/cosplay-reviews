@@ -1,13 +1,20 @@
-import { StarIcon } from '@chakra-ui/icons';
+import { SearchIcon, StarIcon } from '@chakra-ui/icons';
 import {
   Badge,
+  Box,
   Card,
   CardBody,
+  Checkbox,
+  CheckboxGroup,
+  FormControl,
+  FormLabel,
   Grid,
   GridItem,
   Heading,
   Image,
   Input,
+  InputGroup,
+  InputLeftElement,
   LinkBox,
   LinkOverlay,
   Stack,
@@ -28,7 +35,33 @@ const ReviewList = ({ data }) => {
         borderRightWidth="1px"
         pr={2}
       >
-        <Input placeholder="search" />
+        <Box
+          bgColor="white"
+          borderWidth="1px"
+          borderColor="gray.300"
+          borderRadius="md"
+          p={2}
+        >
+          <FormControl mb={5}>
+            <FormLabel>Search</FormLabel>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <SearchIcon color="gray.300" />
+              </InputLeftElement>
+              <Input placeholder="Search" bgColor="white" />
+            </InputGroup>
+          </FormControl>
+
+          <FormControl as="fieldset">
+            <FormLabel as="legend">Select Tags</FormLabel>
+            <CheckboxGroup maxH="500px" overflow="auto">
+              <Stack>
+                <Checkbox value="">Tag 1</Checkbox>
+                <Checkbox value="">Tag 2</Checkbox>
+              </Stack>
+            </CheckboxGroup>
+          </FormControl>
+        </Box>
       </GridItem>
       <GridItem as={Stack}>
         {data?.map((obj) => (

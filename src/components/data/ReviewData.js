@@ -111,3 +111,17 @@ export const sewing = [
     socialIg: '@test',
   },
 ];
+
+export const wigs = [
+  {
+    id: 1,
+    name: 'Stylist A',
+    description: '',
+    ratingQuality: 3,
+    ratingCommunication: 2,
+    ratingTotal: 2.4,
+    avgCost: 100,
+    avgTurnaround: 7,
+    socialIg: '@test',
+  },
+];

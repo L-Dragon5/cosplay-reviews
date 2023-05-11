@@ -25,6 +25,10 @@ const links = [
     label: 'Seamstress/Seamster',
     href: '/reviews/?index=2',
   },
+  {
+    label: 'Wig Stylists',
+    href: '/reviews/?index=3',
+  },
 ];
 
 const carouselCards = [

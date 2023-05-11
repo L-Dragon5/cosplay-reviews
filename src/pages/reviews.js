@@ -13,6 +13,7 @@ import {
   photographers,
   propMakers,
   sewing,
+  wigs,
 } from '@/components/data/ReviewData';
 import AppLayout from '@/components/layouts/AppLayout';
 import ReviewList from '@/components/modules/ReviewList';
@@ -40,18 +41,22 @@ const ReviewsRoute = () => {
     >
       <TabList>
         <Tab>Photographers</Tab>
-        <Tab>Prop Commission</Tab>
-        <Tab>Sewing Commission</Tab>
+        <Tab>Prop Makers</Tab>
+        <Tab>Sewing</Tab>
+        <Tab>Wig Styling</Tab>
       </TabList>
       <TabPanels as={Flex} flexDirection="column" h="100%" flexGrow="1">
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
           <ReviewList data={photographers} />
         </TabPanel>
-        <TabPanel>
+        <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
           <ReviewList data={propMakers} />
         </TabPanel>
-        <TabPanel>
+        <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
           <ReviewList data={sewing} />
+        </TabPanel>
+        <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
+          <ReviewList data={wigs} />
         </TabPanel>
       </TabPanels>
     </Tabs>
