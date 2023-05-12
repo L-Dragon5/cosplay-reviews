@@ -16,7 +16,7 @@ import {
   wigs,
 } from '@/components/data/ReviewData';
 import AppLayout from '@/components/layouts/AppLayout';
-import ReviewList from '@/components/modules/ReviewList';
+import ReviewsPageList from '@/components/modules/ReviewsPageList';
 
 const ReviewsRoute = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -47,16 +47,16 @@ const ReviewsRoute = () => {
       </TabList>
       <TabPanels as={Flex} flexDirection="column" h="100%" flexGrow="1">
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
-          <ReviewList data={photographers} />
+          <ReviewsPageList data={photographers} type="photo" />
         </TabPanel>
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
-          <ReviewList data={propMakers} />
+          <ReviewsPageList data={propMakers} type="prop" />
         </TabPanel>
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
-          <ReviewList data={sewing} />
+          <ReviewsPageList data={sewing} type="sew" />
         </TabPanel>
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
-          <ReviewList data={wigs} />
+          <ReviewsPageList data={wigs} type="wig" />
         </TabPanel>
       </TabPanels>
     </Tabs>

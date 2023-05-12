@@ -10,10 +10,7 @@ import { FaInstagram } from 'react-icons/fa';
 
 export default function SmallWithSocial() {
   return (
-    <Box
-      bg={useColorModeValue('gray.800', 'gray.900')}
-      color={useColorModeValue('white', 'gray.200')}
-    >
+    <Box bg={useColorModeValue('gray.800', 'gray.700')} color="gray.100">
       <Container
         as={Stack}
         maxW={'6xl'}
@@ -24,9 +21,9 @@ export default function SmallWithSocial() {
         align={{ base: 'center', md: 'center' }}
       >
         <Text>© 2023 Cosplay Reviews</Text>
-        <Stack direction={'row'} spacing={6}>
+        <Stack direction="row" spacing={6}>
           <IconButton
-            rounded={'full'}
+            rounded="full"
             bg={useColorModeValue('whiteAlpha.200', 'whiteAlpha.100')}
             aria-label="Instagram"
             icon={<FaInstagram />}

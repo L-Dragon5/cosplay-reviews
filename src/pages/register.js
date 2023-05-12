@@ -7,6 +7,7 @@ import {
   FormLabel,
   Heading,
   Input,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 
@@ -44,7 +45,7 @@ const Register = () => {
         width="600px"
         border="1px solid #ccc"
         p={4}
-        bgColor="white"
+        bgColor={useColorModeValue('white', 'gray.700')}
         boxShadow="md"
         rounded="sm"
       >

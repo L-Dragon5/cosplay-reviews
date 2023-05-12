@@ -1,4 +1,4 @@
-import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
+import { CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { Link } from '@chakra-ui/next-js';
 import {
   Avatar,
@@ -12,7 +12,9 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Spacer,
   Stack,
+  useColorMode,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -33,7 +35,7 @@ const NavLink = ({ href, children }) => (
     rounded="md"
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('brandAlternative.400', 'gray.700'),
+      bg: useColorModeValue('purple.400', 'purple.700'),
     }}
     href={href}
   >
@@ -44,10 +46,11 @@ const NavLink = ({ href, children }) => (
 const Navigation = () => {
   const { user, logout } = useAuth();
 
+  const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box bg={useColorModeValue('brandPrimary.300', 'gray.900')} px={4}>
+    <Box bg={useColorModeValue('purple.300', 'purple.900')} px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
         <IconButton
           size="md"
@@ -68,6 +71,12 @@ const Navigation = () => {
             ))}
           </HStack>
         </HStack>
+
+        <Spacer />
+
+        <IconButton aria-label="Color mode switcher" onClick={toggleColorMode}>
+          {colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
+        </IconButton>
         {user && (
           <Flex alignItems="center">
             <Menu>

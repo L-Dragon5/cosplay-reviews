@@ -6,6 +6,7 @@ import {
   LinkOverlay,
   SimpleGrid,
   Square,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 
@@ -65,7 +66,7 @@ const HomeRoute = () => {
               as={Square}
               borderWidth="1px"
               rounded="md"
-              bgColor="brandSecondary.200"
+              bgColor={useColorModeValue('blue.300', 'blue.700')}
               h={20}
             >
               <LinkOverlay as={NextLink} href={link.href}>
