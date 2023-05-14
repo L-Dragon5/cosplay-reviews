@@ -40,7 +40,7 @@ const IndividualProfileRoute = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const profileData = {
     id: 1,
-    type: 'photographer',
+    type: 'photo',
     name: 'Photographer A',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget ipsum sed erat faucibus sollicitudin. Proin sodales quam nec erat tempus ullamcorper. Sed eget tempor ipsum. Praesent vitae risus maximus, imperdiet ipsum eu, euismod massa. Quisque vel dictum felis. Integer vel sagittis metus, vitae fermentum tortor. Suspendisse mi ligula, condimentum vel purus sed, molestie feugiat massa.',

@@ -18,6 +18,7 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 
 import { useAuth } from '@/hooks/auth';
 
@@ -44,7 +45,9 @@ const NavLink = ({ href, children }) => (
 );
 
 const Navigation = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
+
+  const user = false;
 
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -74,10 +77,7 @@ const Navigation = () => {
 
         <Spacer />
 
-        <IconButton aria-label="Color mode switcher" onClick={toggleColorMode}>
-          {colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
-        </IconButton>
-        {user && (
+        {user ? (
           <Flex alignItems="center">
             <Menu>
               <MenuButton
@@ -102,7 +102,20 @@ const Navigation = () => {
               </MenuList>
             </Menu>
           </Flex>
+        ) : (
+          <Button as={NextLink} href="/login" colorScheme="purple">
+            Log in
+          </Button>
         )}
+
+        <IconButton
+          aria-label="Color mode switcher"
+          onClick={toggleColorMode}
+          colorScheme="purple"
+          ml={2}
+        >
+          {colorMode === 'light' ? <SunIcon /> : <MoonIcon />}
+        </IconButton>
       </Flex>
 
       {isOpen ? (

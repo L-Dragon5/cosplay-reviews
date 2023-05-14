@@ -75,7 +75,12 @@ const FormCreateReview = ({ type, id }) => {
   } else if (isSubmitSuccessful) {
     return (
       <Center my={4}>
-        <Text fontSize="2xl">Your review has been submitted.</Text>
+        <Stack textAlign="center">
+          <Text fontSize="2xl">Your add request has been submitted!</Text>
+          <Text fontSize="lg">
+            Our moderation team will process it shortly.
+          </Text>
+        </Stack>
       </Center>
     );
   }
@@ -177,7 +182,7 @@ const FormCreateReview = ({ type, id }) => {
           </FormHelperText>
         </FormControl>
 
-        {type === 'photographer' && (
+        {type === 'photo' && (
           <FormControl id="location" isInvalid={errors?.location}>
             <FormLabel>Location</FormLabel>
             <Input

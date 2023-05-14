@@ -35,8 +35,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 
+import { types } from '@/components/data/types';
+import FormAddPerson from '@/components/modules/FormAddPerson';
+
 const ReviewsPageList = ({ data, type }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const modalAddTitle = types.find((t) => t.type === type).label;
 
   return (
     <>
@@ -156,9 +161,11 @@ const ReviewsPageList = ({ data, type }) => {
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add New</ModalHeader>
+          <ModalHeader>Add New [{modalAddTitle}]</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>Hello</ModalBody>
+          <ModalBody>
+            <FormAddPerson type={type} />
+          </ModalBody>
         </ModalContent>
       </Modal>
     </>
