@@ -45,7 +45,11 @@ export const getServerSideProps = async ({ params }) => {
       id: params?.id,
     },
     include: {
-      reviews: true,
+      reviews: {
+        include: {
+          reviewer: true,
+        },
+      },
     },
   });
 

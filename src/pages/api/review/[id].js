@@ -7,5 +7,6 @@ export default async function handle(req, res) {
     where: { id: reviewId },
     data: req.body,
   });
+
   res.json(result);
 }

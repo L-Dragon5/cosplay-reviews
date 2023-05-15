@@ -38,7 +38,9 @@ const ReviewCard = ({ review }) => {
     <Card key={review.id} size="sm">
       <CardHeader>
         <Heading size="md" mb={1}>
-          {review.name}
+          {review.isAnonymous
+            ? 'Anonymous'
+            : review?.reviewer?.displayName ?? review?.reviewer?.name}
         </Heading>
         <Stack direction="row" alignItems="center">
           {review.location ? (
@@ -63,7 +65,7 @@ const ReviewCard = ({ review }) => {
           cursor="pointer"
           onClick={onTextClick}
         >
-          {review.reviewDescription}
+          {review.description}
         </Text>
       </CardBody>
 
@@ -84,14 +86,14 @@ const ReviewCard = ({ review }) => {
           <Stat size="sm">
             <StatLabel>Quality</StatLabel>
             <StatNumber display="flex" alignItems="center">
-              {review.ratingQuality}
+              {review.quality}
               <StarIcon boxSize={4} ml={1} />
             </StatNumber>
           </Stat>
           <Stat size="sm">
             <StatLabel>Communication</StatLabel>
             <StatNumber display="flex" alignItems="center">
-              {review.ratingCommunication}
+              {review.communication}
               <StarIcon boxSize={4} ml={1} />
             </StatNumber>
           </Stat>

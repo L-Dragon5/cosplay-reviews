@@ -157,6 +157,9 @@ const AdminRoute = () => {
                     <CardBody>
                       <Stack direction={{ base: 'column', sm: 'row' }}>
                         <Stack>
+                          <Text>
+                            [{review.reviewee.type}] {review.reviewee.name}
+                          </Text>
                           <Text>{review.description}</Text>
                           {review?.location && (
                             <Text>
