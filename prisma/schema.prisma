@@ -19,6 +19,16 @@ enum PeopleType {
   WIG
 }
 
+model Audit {
+  id          Int @id @default(autoincrement())
+  adminId     Int  @map("admin_id")
+  message     String
+
+  admin  User  @relation(fields: [adminId], references: [id])
+
+  @@map("audits")
+}
+
 model Review {
   id            Int    @id @default(autoincrement())
   revieweeId    Int    @map("reviewee_id")
@@ -81,6 +91,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  audits        Audit[]
 
   @@map("users")
 }

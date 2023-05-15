@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 export default async function handle(req, res) {
   const personId = req.query.id;
   const result = await prisma.ReviewablePeople.update({
-    where: { id: personId },
+    where: { id: parseInt(personId) },
     data: req.body,
   });
   res.json(result);
