@@ -29,6 +29,8 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { useSession } from 'next-auth/react';
 import { BsBookmark, BsPencil, BsShare } from 'react-icons/bs';
 import { FaFacebook, FaInstagram, FaLink, FaTwitter } from 'react-icons/fa';
 
@@ -56,6 +58,7 @@ export const getServerSideProps = async ({ params }) => {
 
 const IndividualProfileRoute = ({ profileData }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { data: session, status } = useSession();
 
   return (
     <>
@@ -72,13 +75,26 @@ const IndividualProfileRoute = ({ profileData }) => {
             </Heading>
             <Text>{profileData.description}</Text>
             <ButtonGroup spacing={3} my={3}>
-              <Button
-                colorScheme="blue"
-                leftIcon={<BsPencil />}
-                onClick={onOpen}
-              >
-                Write a review
-              </Button>
+              {session && status !== 'loading' ? (
+                <Button
+                  colorScheme="blue"
+                  leftIcon={<BsPencil />}
+                  onClick={onOpen}
+                >
+                  Write a review
+                </Button>
+              ) : (
+                <Button
+                  as={NextLink}
+                  href="/api/auth/signin"
+                  colorScheme="blue"
+                  leftIcon={<BsPencil />}
+                  onClick={onOpen}
+                >
+                  Write a review
+                </Button>
+              )}
+
               <Button
                 colorScheme="white"
                 variant="outline"
@@ -98,9 +114,13 @@ const IndividualProfileRoute = ({ profileData }) => {
 
             <Heading my={2}>Reviews</Heading>
             <Stack gap={2}>
-              {profileData?.reviews?.map((review) => (
-                <ReviewCard key={review.id} review={review} />
-              )) ?? 'No reviews available'}
+              {profileData?.reviews?.length > 0 ? (
+                profileData?.reviews?.map((review) => (
+                  <ReviewCard key={review.id} review={review} />
+                ))
+              ) : (
+                <Text fontSize="xl">No reviews available</Text>
+              )}
             </Stack>
           </GridItem>
           <GridItem>
@@ -212,16 +232,20 @@ const IndividualProfileRoute = ({ profileData }) => {
                 )}
               </ButtonGroup>
 
-              <Heading size="lg" mt={4} mb={2}>
-                Tags
-              </Heading>
-              <List spacing={3}>
-                {profileData?.tags?.map((tag) => (
-                  <ListItem key={tag} fontSize="lg">
-                    {tag}
-                  </ListItem>
-                ))}
-              </List>
+              {profileData?.tags && (
+                <>
+                  <Heading size="lg" mt={4} mb={2}>
+                    Tags
+                  </Heading>
+                  <List spacing={3}>
+                    {profileData?.tags?.map((tag) => (
+                      <ListItem key={tag} fontSize="lg">
+                        {tag}
+                      </ListItem>
+                    ))}
+                  </List>
+                </>
+              )}
             </Box>
           </GridItem>
         </Grid>

@@ -34,12 +34,15 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { useSession } from 'next-auth/react';
 
 import { types } from '@/components/data/types';
 import FormAddPerson from '@/components/modules/FormAddPerson';
 
 const ReviewsPageList = ({ data, type }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { data: session, status } = useSession();
 
   const modalAddTitle = types.find((t) => t.type === type)?.label;
 
@@ -59,15 +62,28 @@ const ReviewsPageList = ({ data, type }) => {
             borderRadius="md"
             p={2}
           >
-            <Button
-              w="100%"
-              colorScheme="blue"
-              mb={4}
-              leftIcon={<AddIcon />}
-              onClick={onOpen}
-            >
-              Add New
-            </Button>
+            {session && status !== 'loading' ? (
+              <Button
+                w="100%"
+                colorScheme="blue"
+                mb={4}
+                leftIcon={<AddIcon />}
+                onClick={onOpen}
+              >
+                Add New
+              </Button>
+            ) : (
+              <Button
+                as={NextLink}
+                href="/api/auth/signin"
+                w="100%"
+                colorScheme="blue"
+                mb={4}
+                leftIcon={<AddIcon />}
+              >
+                Add New
+              </Button>
+            )}
             <FormControl mb={5}>
               <FormLabel>Search</FormLabel>
               <InputGroup>
@@ -166,11 +182,13 @@ const ReviewsPageList = ({ data, type }) => {
                     </Stat>
                   </StatGroup>
 
-                  <Stack direction="row">
-                    {obj?.tags?.map((tag) => (
-                      <Badge key={`${obj.id}-${tag}`}>{tag}</Badge>
-                    ))}
-                  </Stack>
+                  {obj?.tags && (
+                    <Stack direction="row">
+                      {obj?.tags?.map((tag) => (
+                        <Badge key={`${obj.id}-${tag}`}>{tag}</Badge>
+                      ))}
+                    </Stack>
+                  )}
                 </CardBody>
               </Stack>
             </LinkBox>

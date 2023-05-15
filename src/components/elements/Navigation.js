@@ -19,8 +19,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
-
-import { useAuth } from '@/hooks/auth';
+import { signOut, useSession } from 'next-auth/react';
 
 const links = [
   {
@@ -45,10 +44,7 @@ const NavLink = ({ href, children }) => (
 );
 
 const Navigation = () => {
-  const { logout } = useAuth();
-
-  const user = false;
-
+  const { data: session, status } = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -77,7 +73,7 @@ const Navigation = () => {
 
         <Spacer />
 
-        {user ? (
+        {session ? (
           <Flex alignItems="center">
             <Menu>
               <MenuButton
@@ -98,12 +94,12 @@ const Navigation = () => {
                 <MenuItem>Account Settings</MenuItem>
                 <MenuItem>Theme Settings</MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={logout}>Logout</MenuItem>
+                <MenuItem onClick={signOut}>Logout</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
         ) : (
-          <Button as={NextLink} href="/login" colorScheme="purple">
+          <Button as={NextLink} href="/api/auth/signin" colorScheme="purple">
             Log in
           </Button>
         )}
