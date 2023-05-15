@@ -20,8 +20,8 @@ enum PeopleType {
 }
 
 model Audit {
-  id          Int @id @default(autoincrement())
-  adminId     Int  @map("admin_id")
+  id          String @id @default(cuid())
+  adminId     String  @map("admin_id")
   message     String
 
   admin  User  @relation(fields: [adminId], references: [id])
@@ -30,9 +30,9 @@ model Audit {
 }
 
 model Review {
-  id            Int    @id @default(autoincrement())
-  revieweeId    Int    @map("reviewee_id")
-  reviewerId    Int    @map("reviewer_id")
+  id            String    @id @default(cuid())
+  revieweeId    String    @map("reviewee_id")
+  reviewerId    String    @map("reviewer_id")
   description   String
   quality       Int       @default(1)
   communication Int       @default(1)
@@ -53,9 +53,9 @@ model Review {
 }
 
 model ReviewablePeople {
-  id              Int     @id @default(autoincrement())
-  submitterId     Int?    @map("submitter_id")
-  userId          Int?    @map("user_id")
+  id              String     @id @default(cuid())
+  submitterId     String?    @map("submitter_id")
+  userId          String?    @map("user_id")
   name            String
   type            PeopleType
   location        String?
@@ -79,7 +79,7 @@ model ReviewablePeople {
 }
 
 model User {
-  id        Int             @id @default(autoincrement())
+  id        String             @id @default(cuid())
   role      String          @default("user")
   name      String?
   email     String?            @unique
@@ -97,34 +97,35 @@ model User {
 }
 
 model Account {
-  id                 Int  @id @default(autoincrement())
-  userId             Int  @map("user_id")
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
   type               String
   provider           String
   providerAccountId  String  @map("provider_account_id")
-  refresh_token      String?
-  access_token       String?
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
   expires_at         Int?
   token_type         String?
   scope              String?
-  id_token           String?
+  id_token           String? @db.Text
   session_state      String?
   oauth_token_secret String?
   oauth_token        String?
-  created_at         Int?
-  version            String?
 
   user User @relation(fields:[userId], references:[id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
-  id           Int   @id @default(autoincrement())
+  id           String   @id @default(cuid())
   sessionToken String   @unique @map("session_token")
-  userId       Int   @map("user_id")
+  userId       String   @map("user_id")
   expires      DateTime
   user         User     @relation(fields:[userId], references:[id], onDelete: Cascade)
+
+  @@map("sessions")
 }
 
 model VerificationToken {
@@ -134,4 +135,5 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verificationtokens")
 }
