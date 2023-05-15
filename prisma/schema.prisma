@@ -41,7 +41,7 @@ model Review {
   isAnonymous   Boolean   @default(false) @map("is_anonymous")
   isApproved    Boolean   @default(false) @map("is_approved")
   orderedAt     String  @map("ordered_at")
-  receivedAt    String  @map("received_at")
+  receivedAt    String?  @map("received_at")
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
   deletedAt     DateTime? @map("deleted_at")
