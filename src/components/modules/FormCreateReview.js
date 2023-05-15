@@ -47,7 +47,6 @@ const FormCreateReview = ({ type, id }) => {
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
-      revieweeId: id,
       description: '',
       quality: 1,
       communication: 1,
@@ -61,7 +60,11 @@ const FormCreateReview = ({ type, id }) => {
   const costDisplay = watch('cost', 0);
 
   const onSubmit = (values) => {
-    const newValues = { ...values, reviewerId: session?.user?.id };
+    const newValues = {
+      ...values,
+      reviewee: { connect: { id: id } },
+      reviewer: { connect: { id: session?.user?.id } },
+    };
     axios.post('/api/review', newValues);
   };
 

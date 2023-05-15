@@ -43,7 +43,7 @@ const AdminRoute = () => {
         reviewMutate();
       }
       axios.post('/api/audit', {
-        adminId: session?.user?.id,
+        admin: { connect: { id: session?.user?.id } },
         message: `Approved [${type}]: ${id}`,
       });
     });
@@ -61,7 +61,7 @@ const AdminRoute = () => {
           reviewMutate();
         }
         axios.post('/api/audit', {
-          adminId: session?.user?.id,
+          admin: { connect: { id: session?.user?.id } },
           message: `Rejected [${type}]: ${id}`,
         });
       });

@@ -12,7 +12,7 @@ const AdminLayout = ({ title, children }) => {
     return <Text>Loading...</Text>;
   }
 
-  if (status === 'unauthenticated' || session?.user?.role === 'admin') {
+  if (status === 'unauthenticated' || session?.user?.role === 'user') {
     return <Text>Access denied</Text>;
   }
 
