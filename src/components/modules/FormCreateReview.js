@@ -23,7 +23,10 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
+import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
+
+import axios from '@/lib/axios';
 
 const format = (val) => `$` + val;
 const parse = (val) => val.replace(/^\$/, '');
@@ -35,6 +38,7 @@ const sliderMarkStyles = {
 };
 
 const FormCreateReview = ({ type, id }) => {
+  const { data: session } = useSession();
   const {
     handleSubmit,
     register,
@@ -43,9 +47,10 @@ const FormCreateReview = ({ type, id }) => {
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm({
     defaultValues: {
-      reviewDescription: '',
-      ratingQuality: 3,
-      ratingCommunication: 3,
+      revieweeId: id,
+      description: '',
+      quality: 1,
+      communication: 1,
       cost: 0,
       orderedAt: null,
       receivedAt: null,
@@ -56,12 +61,8 @@ const FormCreateReview = ({ type, id }) => {
   const costDisplay = watch('cost', 0);
 
   const onSubmit = (values) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        //alert(JSON.stringify(values, null, 2));
-        resolve();
-      }, 3000);
-    });
+    const newValues = { ...values, reviewerId: session?.user?.id };
+    axios.post('/api/review', newValues);
   };
 
   // Load loader and
@@ -88,15 +89,15 @@ const FormCreateReview = ({ type, id }) => {
   return (
     <Box as="form" onSubmit={handleSubmit(onSubmit)}>
       <FormControl
-        id="reviewDescription"
+        id="description"
         mb={3}
-        isInvalid={errors?.reviewDescription}
+        isInvalid={errors?.description}
         isRequired
       >
         <FormLabel>Review Description</FormLabel>
         <Textarea
           placeholder="Enter a brief review here"
-          {...register('reviewDescription', {
+          {...register('description', {
             required: true,
             minLength: {
               value: 10,
@@ -108,16 +109,14 @@ const FormCreateReview = ({ type, id }) => {
             },
           })}
         />
-        <FormErrorMessage>
-          {errors?.reviewDescription?.message}
-        </FormErrorMessage>
+        <FormErrorMessage>{errors?.description?.message}</FormErrorMessage>
       </FormControl>
 
-      <FormControl id="ratingQuality" mb={8} isRequired>
+      <FormControl id="quality" mb={8} isRequired>
         <FormLabel>Quality of Work</FormLabel>
         <Slider
           aria-label="slider-quality-rating"
-          onChange={(val) => setValue('ratingQuality', val)}
+          onChange={(val) => setValue('quality', val)}
           min={1}
           max={5}
           step={1}
@@ -138,11 +137,11 @@ const FormCreateReview = ({ type, id }) => {
         </Slider>
       </FormControl>
 
-      <FormControl id="ratingCommunication" mb={6} isRequired>
+      <FormControl id="communication" mb={6} isRequired>
         <FormLabel>Level of Communication</FormLabel>
         <Slider
           aria-label="slider-communication-rating"
-          onChange={(val) => setValue('ratingCommunication', val)}
+          onChange={(val) => setValue('communication', val)}
           min={1}
           max={5}
           step={1}

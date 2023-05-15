@@ -67,16 +67,16 @@ const ReviewsRoute = ({ photographers, propMakers, sewing, wigs }) => {
       </TabList>
       <TabPanels as={Flex} flexDirection="column" h="100%" flexGrow="1">
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
-          <ReviewsPageList data={photographers} type="photo" />
+          <ReviewsPageList data={photographers} type="PHOTO" />
         </TabPanel>
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
-          <ReviewsPageList data={propMakers} type="prop" />
+          <ReviewsPageList data={propMakers} type="PROP" />
         </TabPanel>
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
-          <ReviewsPageList data={sewing} type="sew" />
+          <ReviewsPageList data={sewing} type="SEW" />
         </TabPanel>
         <TabPanel as={Flex} flexDirection="column" h="100%" flexGrow="1">
-          <ReviewsPageList data={wigs} type="wig" />
+          <ReviewsPageList data={wigs} type="WIG" />
         </TabPanel>
       </TabPanels>
     </Tabs>

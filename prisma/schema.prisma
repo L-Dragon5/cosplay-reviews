@@ -44,9 +44,11 @@ model Review {
 
 model ReviewablePeople {
   id              Int     @id @default(autoincrement())
+  submitterId     Int?    @map("submitter_id")
   userId          Int?    @map("user_id")
   name            String
   type            PeopleType
+  location        String?
   socialFacebook  String?    @map("social_facebook")
   socialInstagram String?    @map("social_instagram")
   socialTwitter   String?    @map("social_twitter")
@@ -68,6 +70,7 @@ model ReviewablePeople {
 
 model User {
   id        Int             @id @default(autoincrement())
+  role      String          @default("user")
   name      String?
   email     String?            @unique
   emailVerified DateTime?

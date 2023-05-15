@@ -11,9 +11,13 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
+import axios from '@/lib/axios';
+
 const FormAddPerson = ({ type }) => {
+  const { data: session } = useSession();
   const {
     handleSubmit,
     register,
@@ -22,20 +26,12 @@ const FormAddPerson = ({ type }) => {
     defaultValues: {
       type: type,
       name: '',
-      socialFacebook: '',
-      socialInstagram: '',
-      socialTwitter: '',
-      socialWebsite: '',
     },
   });
 
   const onSubmit = (values) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        //alert(JSON.stringify(values, null, 2));
-        resolve();
-      }, 1000);
-    });
+    const newValues = { ...values, submitterId: session?.user?.id };
+    axios.post('/api/person', newValues);
   };
 
   // Load loader and
