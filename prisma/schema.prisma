@@ -111,6 +111,8 @@ model Account {
   session_state      String?
   oauth_token_secret String?
   oauth_token        String?
+  created_at         Int?
+  version            String?
 
   user User @relation(fields:[userId], references:[id], onDelete: Cascade)
 
