@@ -89,7 +89,6 @@ const IndividualProfileRoute = ({ profileData }) => {
                   href="/api/auth/signin"
                   colorScheme="blue"
                   leftIcon={<BsPencil />}
-                  onClick={onOpen}
                 >
                   Write a review
                 </Button>
