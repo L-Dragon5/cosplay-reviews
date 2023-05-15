@@ -39,7 +39,6 @@ export const getStaticProps = async () => {
 };
 
 const ReviewsRoute = ({ photographers, propMakers, sewing, wigs }) => {
-  console.log(photographers);
   const [tabIndex, setTabIndex] = useState(0);
   const router = useRouter();
 
