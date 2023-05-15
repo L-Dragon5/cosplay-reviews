@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 export default async function handle(req, res) {
   const reviewId = req.query.id;
   const result = await prisma.Review.update({
-    where: { id: parseInt(reviewId) },
+    where: { id: reviewId },
     data: req.body,
   });
   res.json(result);

@@ -42,7 +42,7 @@ import prisma from '@/lib/prisma';
 export const getServerSideProps = async ({ params }) => {
   const profileData = await prisma.ReviewablePeople.findUnique({
     where: {
-      id: parseInt(params?.id),
+      id: params?.id,
     },
     include: {
       reviews: true,
