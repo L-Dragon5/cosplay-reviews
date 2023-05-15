@@ -3,6 +3,7 @@ import '@fontsource/raleway';
 
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { mode } from '@chakra-ui/theme-tools';
+import { SessionProvider } from 'next-auth/react';
 
 const newTheme = {
   fonts: {
@@ -13,8 +14,8 @@ const newTheme = {
     global: (props) => ({
       body: {
         fontFamily: 'body',
-        color: mode('gray.900', 'gray.200')(props),
-        bg: mode('gray.100', 'gray.900')(props),
+        color: mode('black', 'gray.200')(props),
+        bg: mode('gray.50', 'gray.900')(props),
         lineHight: 'base',
       },
       a: {
@@ -67,7 +68,9 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ChakraProvider theme={theme}>
-      {getLayout(<Component {...pageProps} />)}
+      <SessionProvider session={pageProps.session}>
+        {getLayout(<Component {...pageProps} />)}
+      </SessionProvider>
     </ChakraProvider>
   );
 }

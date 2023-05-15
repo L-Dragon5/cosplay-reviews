@@ -35,78 +35,27 @@ import { FaFacebook, FaInstagram, FaLink, FaTwitter } from 'react-icons/fa';
 import AppLayout from '@/components/layouts/AppLayout';
 import FormCreateReview from '@/components/modules/FormCreateReview';
 import ReviewCard from '@/components/modules/ReviewCard';
+import prisma from '@/lib/prisma';
 
-const IndividualProfileRoute = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const profileData = {
-    id: 1,
-    type: 'photo',
-    name: 'Photographer A',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget ipsum sed erat faucibus sollicitudin. Proin sodales quam nec erat tempus ullamcorper. Sed eget tempor ipsum. Praesent vitae risus maximus, imperdiet ipsum eu, euismod massa. Quisque vel dictum felis. Integer vel sagittis metus, vitae fermentum tortor. Suspendisse mi ligula, condimentum vel purus sed, molestie feugiat massa.',
-    avgQuality: 3.5,
-    avgCommunication: 2.5,
-    avgCost: 102.5,
-    avgTurnaround: 22,
-    socialInstagram: 'test',
-    socialFacebook: 'test',
-    socialTwitter: 'test',
-    socialWebsite: 'https://www.google.com/',
-    tags: ['Professional', 'Composites', 'Lighting Gels', 'Expert Posing'],
-    claimed: true,
-    reviews: [
-      {
-        id: '1',
-        name: 'Jane Doe',
-        isAnonymous: false,
-        ratingQuality: 5,
-        ratingCommunication: 4,
-        cost: 50,
-        location: 'Katsucon 2023',
-        orderedAt: '2023-02-14',
-        completedAt: '2023-02-21',
-        reviewDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec imperdiet mi. Pellentesque sollicitudin ultrices sapien, aliquam tristique risus auctor a. Vivamus placerat et elit sit amet ultricies. Pellentesque consequat quam metus, at lacinia metus interdum sed. Praesent vel ipsum sed felis consectetur sodales quis mattis lectus. Suspendisse sed placerat nisi, et consectetur lectus. Sed ultrices scelerisque neque ut tincidunt. Donec consectetur sodales est, in aliquet ipsum aliquam vel. Nunc ullamcorper ligula eros, id pretium odio semper vitae.',
-      },
-      {
-        id: '2',
-        name: 'Anonymous',
-        isAnonymous: true,
-        ratingQuality: 2,
-        ratingCommunication: 2,
-        cost: 100,
-        location: 'Katsucon 2023',
-        orderedAt: '2023-02-15',
-        completedAt: '2023-03-15',
-        reviewDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec imperdiet mi. Pellentesque sollicitudin ultrices sapien, aliquam tristique risus auctor a. Vivamus placerat et elit sit amet ultricies. Pellentesque consequat quam metus, at lacinia metus interdum sed. Praesent vel ipsum sed felis consectetur sodales quis mattis lectus. Suspendisse sed placerat nisi, et consectetur lectus. Sed ultrices scelerisque neque ut tincidunt. Donec consectetur sodales est, in aliquet ipsum aliquam vel. Nunc ullamcorper ligula eros, id pretium odio semper vitae.',
-      },
-      {
-        id: '3',
-        name: 'Jannett Doe',
-        isAnonymous: false,
-        ratingQuality: 3,
-        ratingCommunication: 3,
-        cost: 60,
-        orderedAt: '2023-04-16',
-        completedAt: '2023-05-16',
-        reviewDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec imperdiet mi. Pellentesque sollicitudin ultrices sapien, aliquam tristique risus auctor a. Vivamus placerat et elit sit amet ultricies. Pellentesque consequat quam metus, at lacinia metus interdum sed. Praesent vel ipsum sed felis consectetur sodales quis mattis lectus. Suspendisse sed placerat nisi, et consectetur lectus. Sed ultrices scelerisque neque ut tincidunt. Donec consectetur sodales est, in aliquet ipsum aliquam vel. Nunc ullamcorper ligula eros, id pretium odio semper vitae.',
-      },
-      {
-        id: '4',
-        name: 'John Doe',
-        isAnonymous: false,
-        ratingQuality: 1,
-        ratingCommunication: 1,
-        cost: 200,
-        orderedAt: '2023-05-10',
-        completedAt: null,
-        reviewDescription:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec imperdiet mi. Pellentesque sollicitudin ultrices sapien, aliquam tristique risus auctor a. Vivamus placerat et elit sit amet ultricies. Pellentesque consequat quam metus, at lacinia metus interdum sed. Praesent vel ipsum sed felis consectetur sodales quis mattis lectus. Suspendisse sed placerat nisi, et consectetur lectus. Sed ultrices scelerisque neque ut tincidunt. Donec consectetur sodales est, in aliquet ipsum aliquam vel. Nunc ullamcorper ligula eros, id pretium odio semper vitae.',
-      },
-    ],
+export const getServerSideProps = async ({ params }) => {
+  const profileData = await prisma.ReviewablePeople.findUnique({
+    where: {
+      id: parseInt(params?.id),
+    },
+    include: {
+      reviews: true,
+    },
+  });
+
+  return {
+    props: {
+      profileData: JSON.parse(JSON.stringify(profileData)),
+    },
   };
+};
+
+const IndividualProfileRoute = ({ profileData }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -172,26 +121,46 @@ const IndividualProfileRoute = () => {
               >
                 <Stat>
                   <StatLabel>Cost</StatLabel>
-                  <StatNumber>${profileData.avgCost}</StatNumber>
+                  <StatNumber>
+                    {profileData?.avgCost > -1
+                      ? `$${profileData.avgCost}`
+                      : 'Not enough data'}
+                  </StatNumber>
                   <StatHelpText>average in USD</StatHelpText>
                 </Stat>
                 <Stat>
                   <StatLabel>Turnaround Time</StatLabel>
-                  <StatNumber>{profileData.avgTurnaround}</StatNumber>
+                  <StatNumber>
+                    {profileData?.avgTurnaround > -1
+                      ? `${profileData.avgTurnaround}`
+                      : 'Not enough data'}
+                  </StatNumber>
                   <StatHelpText>average in days</StatHelpText>
                 </Stat>
                 <Stat>
                   <StatLabel>Quality</StatLabel>
                   <StatNumber display="flex" alignItems="center">
-                    {profileData.avgQuality}
-                    <StarIcon boxSize={4} ml={1} />
+                    {profileData?.avgQuality > -1 ? (
+                      <>
+                        {profileData.avgQuality}
+                        <StarIcon boxSize={4} ml={1} />
+                      </>
+                    ) : (
+                      'Not enough data'
+                    )}
                   </StatNumber>
                 </Stat>
                 <Stat>
                   <StatLabel>Communication</StatLabel>
                   <StatNumber display="flex" alignItems="center">
-                    {profileData.avgCommunication}
-                    <StarIcon boxSize={4} ml={1} />
+                    {profileData?.avgCommunication > -1 ? (
+                      <>
+                        {profileData.avgCommunication}
+                        <StarIcon boxSize={4} ml={1} />
+                      </>
+                    ) : (
+                      'Not enough data'
+                    )}
                   </StatNumber>
                 </Stat>
               </StatGroup>
@@ -247,7 +216,7 @@ const IndividualProfileRoute = () => {
                 Tags
               </Heading>
               <List spacing={3}>
-                {profileData?.tags.map((tag) => (
+                {profileData?.tags?.map((tag) => (
                   <ListItem key={tag} fontSize="lg">
                     {tag}
                   </ListItem>

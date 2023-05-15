@@ -9,16 +9,37 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import {
-  photographers,
-  propMakers,
-  sewing,
-  wigs,
-} from '@/components/data/ReviewData';
 import AppLayout from '@/components/layouts/AppLayout';
 import ReviewsPageList from '@/components/modules/ReviewsPageList';
+import prisma from '@/lib/prisma';
 
-const ReviewsRoute = () => {
+export const getStaticProps = async () => {
+  const photographers = await prisma.ReviewablePeople.findMany({
+    where: { isApproved: true, type: 'PHOTO' },
+  });
+  const propMakers = await prisma.ReviewablePeople.findMany({
+    where: { isApproved: true, type: 'PROP' },
+  });
+  const sewing = await prisma.ReviewablePeople.findMany({
+    where: { isApproved: true, type: 'SEW' },
+  });
+  const wigs = await prisma.ReviewablePeople.findMany({
+    where: { isApproved: true, type: 'WIG' },
+  });
+
+  return {
+    props: {
+      photographers: JSON.parse(JSON.stringify(photographers)),
+      propMakers: JSON.parse(JSON.stringify(propMakers)),
+      sewing: JSON.parse(JSON.stringify(sewing)),
+      wigs: JSON.parse(JSON.stringify(wigs)),
+    },
+    revalidate: 10,
+  };
+};
+
+const ReviewsRoute = ({ photographers, propMakers, sewing, wigs }) => {
+  console.log(photographers);
   const [tabIndex, setTabIndex] = useState(0);
   const router = useRouter();
 

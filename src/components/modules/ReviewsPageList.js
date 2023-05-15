@@ -41,7 +41,7 @@ import FormAddPerson from '@/components/modules/FormAddPerson';
 const ReviewsPageList = ({ data, type }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const modalAddTitle = types.find((t) => t.type === type).label;
+  const modalAddTitle = types.find((t) => t.type === type)?.label;
 
   return (
     <>
@@ -122,26 +122,46 @@ const ReviewsPageList = ({ data, type }) => {
                   <StatGroup>
                     <Stat>
                       <StatLabel>Cost</StatLabel>
-                      <StatNumber>${obj.avgCost}</StatNumber>
+                      <StatNumber>
+                        {obj?.avgCost > -1
+                          ? `$${obj.avgCost}`
+                          : 'Not enough data'}
+                      </StatNumber>
                       <StatHelpText>average in USD</StatHelpText>
                     </Stat>
                     <Stat>
                       <StatLabel>Turnaround Time</StatLabel>
-                      <StatNumber>{obj.avgTurnaround}</StatNumber>
+                      <StatNumber>
+                        {obj?.avgTurnaround > -1
+                          ? `${obj.avgTurnaround}`
+                          : 'Not enough data'}
+                      </StatNumber>
                       <StatHelpText>average in days</StatHelpText>
                     </Stat>
                     <Stat>
                       <StatLabel>Quality</StatLabel>
                       <StatNumber display="flex" alignItems="center">
-                        {obj.ratingQuality}
-                        <StarIcon boxSize={4} ml={1} />
+                        {obj?.avgQuality > -1 ? (
+                          <>
+                            {obj.avgQuality}
+                            <StarIcon boxSize={4} ml={1} />
+                          </>
+                        ) : (
+                          'Not enough data'
+                        )}
                       </StatNumber>
                     </Stat>
                     <Stat>
                       <StatLabel>Communication</StatLabel>
                       <StatNumber display="flex" alignItems="center">
-                        {obj.ratingCommunication}
-                        <StarIcon boxSize={4} ml={1} />
+                        {obj?.avgCommunication > -1 ? (
+                          <>
+                            {obj.avgCommunication}
+                            <StarIcon boxSize={4} ml={1} />
+                          </>
+                        ) : (
+                          'Not enough data'
+                        )}
                       </StatNumber>
                     </Stat>
                   </StatGroup>

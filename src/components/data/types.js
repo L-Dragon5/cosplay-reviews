@@ -1,18 +1,18 @@
 export const types = [
   {
-    type: 'photo',
+    type: 'PHOTO',
     label: 'Photographer',
   },
   {
-    type: 'prop',
+    type: 'PROP',
     label: 'Prop Maker',
   },
   {
-    type: 'sew',
+    type: 'SEW',
     label: 'Seamster/Seamstress',
   },
   {
-    type: 'wig',
+    type: 'WIG',
     label: 'Wig Stylist',
   },
 ];
