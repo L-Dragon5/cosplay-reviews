@@ -40,8 +40,8 @@ model Review {
   location      String?
   isAnonymous   Boolean   @default(false) @map("is_anonymous")
   isApproved    Boolean   @default(false) @map("is_approved")
-  orderedAt     DateTime  @map("ordered_at") @db.Date
-  receivedAt    DateTime  @map("received_at") @db.Date
+  orderedAt     String  @map("ordered_at")
+  receivedAt    String  @map("received_at")
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
   deletedAt     DateTime? @map("deleted_at")

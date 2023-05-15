@@ -209,7 +209,8 @@ const FormCreateReview = ({ type, id }) => {
           <Input
             type="date"
             placeholder="Select date"
-            {...register('orderedAt', { required: true, min: '2021-01-01' })}
+            min="2021-01-01"
+            {...register('orderedAt', { required: true })}
           />
           <FormHelperText>
             Only allowing submissions as early as 2021.
@@ -221,6 +222,8 @@ const FormCreateReview = ({ type, id }) => {
           <Input
             type="date"
             placeholder="Select date"
+            min="2021-01-01"
+            max={new Date().toISOString().split('T')[0]}
             {...register('receivedAt')}
           />
           <FormErrorMessage>{errors?.receivedAt?.message}</FormErrorMessage>
