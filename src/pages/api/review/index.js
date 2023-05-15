@@ -11,6 +11,9 @@ export default async function handle(req, res) {
   } else if (req.method === 'GET') {
     const data = await prisma.Review.findMany({
       where: { isApproved: false, deletedAt: null },
+      include: {
+        reviewee: true,
+      },
     });
     return res.status(200).json(JSON.parse(JSON.stringify(data)));
   }
