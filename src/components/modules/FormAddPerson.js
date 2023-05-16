@@ -31,6 +31,16 @@ const FormAddPerson = ({ type }) => {
 
   const onSubmit = (values) => {
     const newValues = { ...values, submitterId: session?.user?.id };
+    if (values?.socialInstagram) {
+      newValues.socialInstagram = values.socialInstagram.replace('@', '');
+    }
+    if (values?.socialFacebook) {
+      newValues.socialFacebook = values.socialFacebook.replace('@', '');
+    }
+    if (values?.socialTwitter) {
+      newValues.socialTwitter = values.socialTwitter.replace('@', '');
+    }
+
     axios.post('/api/person', newValues);
   };
 
@@ -123,11 +133,12 @@ const FormAddPerson = ({ type }) => {
           <FormLabel>Website</FormLabel>
           <Input
             type="url"
-            placeholder="http..."
+            placeholder="https://..."
+            pattern="https://.*"
             {...register('socialWebsite', {
               maxLength: {
                 value: 255,
-                message: 'This account name is too long ',
+                message: 'This url is too long ',
               },
             })}
           />
