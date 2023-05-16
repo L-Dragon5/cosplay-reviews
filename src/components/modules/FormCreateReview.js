@@ -23,6 +23,7 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
+import { differenceInCalendarDays } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 
@@ -60,10 +61,19 @@ const FormCreateReview = ({ type, id }) => {
   const costDisplay = watch('cost', 0);
 
   const onSubmit = (values) => {
+    let turnaround = null;
+    if (values?.receivedAt && values?.orderedAt) {
+      turnaround = differenceInCalendarDays(
+        new Date(values.receivedAt),
+        new Date(values.orderedAt),
+      );
+    }
+
     const newValues = {
       ...values,
       reviewee: { connect: { id: id } },
       reviewer: { connect: { id: session?.user?.id } },
+      turnaround,
     };
     axios.post('/api/review', newValues);
   };

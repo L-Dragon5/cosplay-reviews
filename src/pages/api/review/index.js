@@ -14,6 +14,7 @@ export default async function handle(req, res) {
       include: {
         reviewee: true,
       },
+      orderBy: { createdAt: 'asc' },
     });
     return res.status(200).json(JSON.parse(JSON.stringify(data)));
   }

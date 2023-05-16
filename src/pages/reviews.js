@@ -7,24 +7,27 @@ import {
   Tabs,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import ReviewsPageList from '@/components/modules/ReviewsPageList';
 import prisma from '@/lib/prisma';
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({ params, query }) => {
   const photographers = await prisma.ReviewablePeople.findMany({
     where: { isApproved: true, type: 'PHOTO' },
+    orderBy: { name: 'asc' },
   });
   const propMakers = await prisma.ReviewablePeople.findMany({
     where: { isApproved: true, type: 'PROP' },
+    orderBy: { name: 'asc' },
   });
   const sewing = await prisma.ReviewablePeople.findMany({
     where: { isApproved: true, type: 'SEW' },
+    orderBy: { name: 'asc' },
   });
   const wigs = await prisma.ReviewablePeople.findMany({
     where: { isApproved: true, type: 'WIG' },
+    orderBy: { name: 'asc' },
   });
 
   return {
@@ -33,26 +36,23 @@ export const getStaticProps = async () => {
       propMakers: JSON.parse(JSON.stringify(propMakers)),
       sewing: JSON.parse(JSON.stringify(sewing)),
       wigs: JSON.parse(JSON.stringify(wigs)),
+      defaultIndex: query?.index ? parseInt(query.index) : 0,
     },
-    revalidate: 10,
   };
 };
 
-const ReviewsRoute = ({ photographers, propMakers, sewing, wigs }) => {
-  const [tabIndex, setTabIndex] = useState(0);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (router.query.index) {
-      setTabIndex(parseInt(router.query.index));
-    }
-  }, [router.query.index]);
-
+const ReviewsRoute = ({
+  photographers,
+  propMakers,
+  sewing,
+  wigs,
+  defaultIndex,
+}) => {
   return (
     <Tabs
       isFitted
       isLazy
-      defaultIndex={tabIndex}
+      defaultIndex={defaultIndex}
       variant="line"
       display="flex"
       flexDirection="column"

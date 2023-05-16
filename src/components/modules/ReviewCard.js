@@ -13,18 +13,11 @@ import {
   StatNumber,
   Text,
 } from '@chakra-ui/react';
-import { differenceInCalendarDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import { useState } from 'react';
 
 const ReviewCard = ({ review }) => {
   const [expanded, setExpanded] = useState(false);
-
-  const turnaroundTime = review?.completedAt
-    ? differenceInCalendarDays(
-        new Date(review.completedAt),
-        new Date(review.orderedAt),
-      )
-    : -1;
 
   const onTextClick = () => {
     if (expanded) {
@@ -79,7 +72,7 @@ const ReviewCard = ({ review }) => {
           <Stat size="sm">
             <StatLabel>Turnaround Time</StatLabel>
             <StatNumber>
-              {turnaroundTime < 0 ? 'Never received' : turnaroundTime}
+              {review?.turnaround ? review.turnaround : 'Never received'}
             </StatNumber>
             <StatHelpText>in days</StatHelpText>
           </Stat>

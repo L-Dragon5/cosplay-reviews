@@ -37,6 +37,7 @@ model Review {
   quality       Int       @default(1)
   communication Int       @default(1)
   cost          Int       @default(0)
+  turnaround    Int?
   location      String?
   isAnonymous   Boolean   @default(false) @map("is_anonymous")
   isApproved    Boolean   @default(false) @map("is_approved")
