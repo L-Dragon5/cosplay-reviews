@@ -47,5 +47,5 @@ export default async function handle(req, res) {
   });
   await calculateAverages(reviewId);
 
-  res.json(result);
+  return res.status(200).json(result);
 }

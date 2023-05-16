@@ -28,18 +28,28 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useSession } from 'next-auth/react';
-import { BsBookmark, BsPencil, BsShare } from 'react-icons/bs';
+import {
+  BsBookmark,
+  BsBookmarkFill,
+  BsFlag,
+  BsPencil,
+  BsShare,
+} from 'react-icons/bs';
 import { FaFacebook, FaInstagram, FaLink, FaTwitter } from 'react-icons/fa';
 
+import { useToastComingSoon } from '@/components/elements/toastComingSoon';
 import AppLayout from '@/components/layouts/AppLayout';
 import FormCreateReview from '@/components/modules/FormCreateReview';
 import ReviewCard from '@/components/modules/ReviewCard';
+import { useUserBookmarks } from '@/hooks/useUserBookmarks';
+import axios from '@/lib/axios';
 import prisma from '@/lib/prisma';
 
-export const getServerSideProps = async ({ params }) => {
+export const getServerSideProps = async ({ req, params, resolvedUrl }) => {
   const profileData = await prisma.ReviewablePeople.findUnique({
     where: {
       id: params?.id,
@@ -56,13 +66,53 @@ export const getServerSideProps = async ({ params }) => {
   return {
     props: {
       profileData: JSON.parse(JSON.stringify(profileData)),
+      profileId: params?.id,
+      resolvedUrl: req.headers.host + resolvedUrl,
     },
   };
 };
 
-const IndividualProfileRoute = ({ profileData }) => {
+const IndividualProfileRoute = ({ profileData, profileId, resolvedUrl }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: session, status } = useSession();
+  const { displayMessage } = useToastComingSoon();
+  const toast = useToast();
+  const { userBookmarks, updateUserBookmarks } = useUserBookmarks();
+
+  const saved = userBookmarks?.bookmarks?.some((b) => b.personId === profileId);
+
+  const onBookmark = () => {
+    if (!saved) {
+      axios
+        .put(`/api/user/${session?.user?.id}`, {
+          personId: profileId,
+        })
+        .then(() => {
+          updateUserBookmarks();
+        });
+    } else {
+      axios
+        .post(`/api/user/bookmarks/${session?.user?.id}`, {
+          method: 'DELETE',
+          personId: profileId,
+        })
+        .then(() => {
+          updateUserBookmarks();
+        });
+    }
+  };
+
+  const onShare = () => {
+    navigator.clipboard.writeText(resolvedUrl);
+    toast({
+      title: 'Share',
+      description: 'Saved URL to clipboard!',
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+      position: 'top',
+    });
+  };
 
   return (
     <>
@@ -102,16 +152,41 @@ const IndividualProfileRoute = ({ profileData }) => {
                 colorScheme="white"
                 variant="outline"
                 leftIcon={<BsShare />}
+                onClick={onShare}
               >
                 Share
               </Button>
-              <Button
-                colorScheme="white"
-                variant="outline"
-                leftIcon={<BsBookmark />}
-              >
-                Save
-              </Button>
+              {session &&
+                status !== 'loading' &&
+                (saved ? (
+                  <Button
+                    colorScheme="green"
+                    variant="outline"
+                    leftIcon={<BsBookmarkFill />}
+                    onClick={onBookmark}
+                  >
+                    Saved
+                  </Button>
+                ) : (
+                  <Button
+                    colorScheme="white"
+                    variant="outline"
+                    leftIcon={<BsBookmark />}
+                    onClick={onBookmark}
+                  >
+                    Save
+                  </Button>
+                ))}
+
+              {profileData.userId === null && session && status !== 'loading' && (
+                <Button
+                  colorScheme="teal"
+                  leftIcon={<BsFlag />}
+                  onClick={displayMessage}
+                >
+                  Claim
+                </Button>
+              )}
             </ButtonGroup>
             <Divider />
 

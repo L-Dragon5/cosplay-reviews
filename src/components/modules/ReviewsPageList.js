@@ -30,6 +30,7 @@ import {
   StatHelpText,
   StatLabel,
   StatNumber,
+  Switch,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -40,22 +41,37 @@ import { useEffect, useState } from 'react';
 
 import { types } from '@/components/data/types';
 import FormAddPerson from '@/components/modules/FormAddPerson';
+import { useUserBookmarks } from '@/hooks/useUserBookmarks';
 
 const ReviewsPageList = ({ data, type }) => {
   const [displayData, setDisplayData] = useState(data);
   const [search, setSearch] = useState('');
+  const [displayBookmarks, setDisplayBookmarks] = useState(false);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: session, status } = useSession();
+  const { userBookmarks } = useUserBookmarks();
 
   const modalAddTitle = types.find((t) => t.type === type)?.label;
 
   useEffect(() => {
     setDisplayData(
-      data.filter((obj) =>
-        obj.name.toLowerCase().includes(search.toLowerCase()),
-      ),
+      data.reduce((carry, obj) => {
+        let add = true;
+        if (displayBookmarks) {
+          add = userBookmarks?.bookmarks?.some((b) => b.personId === obj.id);
+        }
+
+        if (add) {
+          return obj.name.toLowerCase().includes(search.toLowerCase())
+            ? [...carry, obj]
+            : carry;
+        }
+
+        return carry;
+      }, []),
     );
-  }, [search]);
+  }, [search, displayBookmarks]);
 
   return (
     <>
@@ -95,6 +111,20 @@ const ReviewsPageList = ({ data, type }) => {
                 Add New
               </Button>
             )}
+            {session && status !== 'loading' && (
+              <FormControl
+                id="use-bookmarks"
+                display="flex"
+                alignItems="center"
+                mb={5}
+              >
+                <FormLabel mb={0}>Display only bookmarked?</FormLabel>
+                <Switch
+                  onChange={(e) => setDisplayBookmarks(e.target.checked)}
+                />
+              </FormControl>
+            )}
+
             <FormControl mb={5}>
               <FormLabel>Search</FormLabel>
               <InputGroup>

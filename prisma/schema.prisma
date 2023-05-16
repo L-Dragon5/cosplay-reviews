@@ -74,6 +74,7 @@ model ReviewablePeople {
   deletedAt       DateTime?  @map("deleted_at")
   reviews         Review[]
   tags            Tag[]
+  bookmarkers     BookmarkPeople[]
 
   user   User?    @relation(fields: [userId], references: [id])
 
@@ -88,6 +89,16 @@ model Tag {
   person    ReviewablePeople    @relation(fields: [personId], references: [id])
 
   @@map("tags")
+}
+
+model BookmarkPeople {
+  user    User    @relation(fields: [userId], references: [id])
+  userId  String
+  person  ReviewablePeople  @relation(fields: [personId], references: [id])
+  personId  String
+  assignedAt  DateTime   @default(now())
+
+  @@id([userId, personId])
 }
 
 model User {
@@ -105,6 +116,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   audits        Audit[]
+  bookmarks     BookmarkPeople[]
 
   @@map("users")
 }

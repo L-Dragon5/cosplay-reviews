@@ -60,7 +60,7 @@ const Navigation = () => {
         />
         <HStack spacing={8} alignItems="center">
           <Link href="/" _hover={{ textDecoration: 'none' }}>
-            Logo
+            CR
           </Link>
           <HStack as="nav" spacing={4} display={{ base: 'none', md: 'flex' }}>
             {links.map((link) => (

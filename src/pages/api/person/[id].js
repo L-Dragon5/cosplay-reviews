@@ -7,5 +7,5 @@ export default async function handle(req, res) {
     where: { id: personId },
     data: req.body,
   });
-  res.json(result);
+  return res.status(200).json(result);
 }

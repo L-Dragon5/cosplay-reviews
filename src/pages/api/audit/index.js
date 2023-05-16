@@ -5,5 +5,5 @@ export default async function handle(req, res) {
   const result = await prisma.Audit.create({
     data: req.body,
   });
-  res.json(result);
+  return res.status(200).json(result);
 }
