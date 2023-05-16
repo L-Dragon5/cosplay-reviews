@@ -36,15 +36,26 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 import { types } from '@/components/data/types';
 import FormAddPerson from '@/components/modules/FormAddPerson';
 
 const ReviewsPageList = ({ data, type }) => {
+  const [displayData, setDisplayData] = useState(data);
+  const [search, setSearch] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: session, status } = useSession();
 
   const modalAddTitle = types.find((t) => t.type === type)?.label;
+
+  useEffect(() => {
+    setDisplayData(
+      data.filter((obj) =>
+        obj.name.toLowerCase().includes(search.toLowerCase()),
+      ),
+    );
+  }, [search]);
 
   return (
     <>
@@ -95,6 +106,7 @@ const ReviewsPageList = ({ data, type }) => {
                 <Input
                   placeholder="Search"
                   bgColor={useColorModeValue('white', 'gray.700')}
+                  onChange={(e) => setSearch(e.target.value)}
                 />
               </InputGroup>
             </FormControl>
@@ -102,16 +114,13 @@ const ReviewsPageList = ({ data, type }) => {
             <FormControl as="fieldset">
               <FormLabel as="legend">Select Tags</FormLabel>
               <CheckboxGroup maxH="500px" overflow="auto">
-                <Stack>
-                  <Checkbox value="">Tag 1</Checkbox>
-                  <Checkbox value="">Tag 2</Checkbox>
-                </Stack>
+                <Stack />
               </CheckboxGroup>
             </FormControl>
           </Box>
         </GridItem>
         <GridItem as={Stack}>
-          {data?.map((obj) => (
+          {displayData?.map((obj) => (
             <LinkBox
               as={Card}
               key={obj.id}

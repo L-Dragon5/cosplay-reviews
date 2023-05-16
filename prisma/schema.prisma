@@ -72,11 +72,22 @@ model ReviewablePeople {
   createdAt       DateTime   @default(now()) @map("created_at")
   updatedAt       DateTime   @updatedAt @map("updated_at")
   deletedAt       DateTime?  @map("deleted_at")
-  reviews Review[]
+  reviews         Review[]
+  tags            Tag[]
 
   user   User?    @relation(fields: [userId], references: [id])
 
   @@map("reviewable_people")
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  personId  String    @map("person_id")
+  name      String
+
+  person    ReviewablePeople    @relation(fields: [personId], references: [id])
+
+  @@map("tags")
 }
 
 model User {

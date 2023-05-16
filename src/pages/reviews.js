@@ -6,7 +6,6 @@ import {
   TabPanels,
   Tabs,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import ReviewsPageList from '@/components/modules/ReviewsPageList';
