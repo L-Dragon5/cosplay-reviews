@@ -20,7 +20,7 @@ export default function SmallWithSocial() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Text>© 2023 Cosplay Reviews</Text>
+        <Text>© 2023 CosReviews</Text>
         <Stack direction="row" spacing={6}>
           <IconButton
             rounded="full"

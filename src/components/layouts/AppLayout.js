@@ -5,7 +5,7 @@ import Footer from '@/components/elements/Footer';
 import Navigation from '@/components/elements/Navigation';
 
 const AppLayout = ({ title, children }) => {
-  const displayTitle = `${title} | CR`;
+  const displayTitle = `${title} | CosReviews`;
 
   return (
     <Flex direction="column" minHeight="100vh" maxHeight="100vh">

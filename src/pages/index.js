@@ -34,22 +34,10 @@ const links = [
 
 const carouselCards = [
   {
-    title: 'Katsucon Photographers',
-    text: 'Search for photographers attending Katsucon!',
+    title: 'Welcome to CosReviews!',
+    text: 'This site is still a work-in-progress, so just be mindful.',
     image:
-      'https://ic.pics.livejournal.com/meowkittyzombie/32846548/11767/11767_640.jpg',
-  },
-  {
-    title: '3D Printing Commissions',
-    text: 'Need a prop? Check out these 3D printers.',
-    image:
-      'https://helios-i.mashable.com/imagery/articles/03K6mSGJRfPu2CjQqUUdbEu/hero-image.fill.size_1248x702.v1611610957.jpg',
-  },
-  {
-    title: 'Sewing Commissions',
-    text: 'Finding people that can help make your sakizo dress a reality.',
-    image:
-      'https://media-cldnry.s-nbcnews.com/image/upload/t_social_share_1200x630_center,f_auto,q_auto:best/newscms/2021_12/1692579/sewing-machine-roundup-bd-2x1-bug-210324.jpg',
+      'https://images.unsplash.com/photo-1543332164-6e82f355badc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2560&q=80',
   },
 ];
 

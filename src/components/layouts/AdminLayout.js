@@ -6,7 +6,7 @@ import Navigation from '@/components/elements/Navigation';
 
 const AdminLayout = ({ title, children }) => {
   const { data: session, status } = useSession();
-  const displayTitle = `${title} | Admin CR`;
+  const displayTitle = `${title} | Admin CosReviews`;
 
   if (status === 'loading') {
     return <Text>Loading...</Text>;
