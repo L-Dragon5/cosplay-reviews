@@ -158,11 +158,13 @@ const ReviewsPageList = ({ data, type }) => {
               overflow="hidden"
               variant="outline"
             >
-              <Image
-                objectFit="cover"
-                maxW={{ base: '100%', sm: '200px' }}
-                src="https://placehold.co/600x400"
-              />
+              {obj?.coverPhoto && (
+                <Image
+                  objectFit="cover"
+                  maxW={{ base: '100%', sm: '200px' }}
+                  src={obj.coverPhoto}
+                />
+              )}
               <Stack w="100%">
                 <CardBody as={LinkOverlay} href={`/profiles/${obj.id}/`}>
                   <Heading size="md" mb={obj.description ? '0' : '9'}>

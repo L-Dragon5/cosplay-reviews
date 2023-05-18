@@ -60,6 +60,7 @@ model ReviewablePeople {
   name            String
   type            PeopleType
   location        String?
+  coverPhoto      String?    @map("cover_photo")
   socialFacebook  String?    @map("social_facebook")
   socialInstagram String?    @map("social_instagram")
   socialTwitter   String?    @map("social_twitter")
