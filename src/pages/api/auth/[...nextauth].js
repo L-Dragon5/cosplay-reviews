@@ -11,10 +11,10 @@ export default authHandler;
 
 const options = {
   providers: [
-    InstagramProvider({
-      clientId: process.env.INSTAGRAM_CLIENT_ID,
-      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
-    }),
+    // InstagramProvider({
+    //   clientId: process.env.INSTAGRAM_CLIENT_ID,
+    //   clientSecret: process.env.INSTAGRAM_CLIENT_SECRET,
+    // }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
