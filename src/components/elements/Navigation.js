@@ -83,7 +83,13 @@ const Navigation = () => {
                 cursor="pointer"
                 minW={0}
               >
-                <Avatar size="sm" src={session?.user?.image} />
+                <Avatar
+                  size="sm"
+                  name={
+                    session?.user?.displayName ?? session?.user?.name ?? null
+                  }
+                  src={session?.user?.image}
+                />
               </MenuButton>
               <MenuList>
                 <MenuItem>Account Settings</MenuItem>

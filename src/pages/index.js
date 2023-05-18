@@ -1,11 +1,16 @@
 import {
   Box,
+  Code,
   Container,
   Heading,
   LinkBox,
   LinkOverlay,
+  List,
+  ListItem,
   SimpleGrid,
   Square,
+  Text,
+  UnorderedList,
   useColorModeValue,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
@@ -63,6 +68,22 @@ const HomeRoute = () => {
             </LinkBox>
           ))}
         </SimpleGrid>
+        <Box mt={12}>
+          <Text>
+            Hello! This site is definitely still in the beta stages of
+            development, but we're working on many features to come.
+          </Text>
+          <UnorderedList>
+            <ListItem>Locations / Events</ListItem>
+            <ListItem>Tags / Endorsements</ListItem>
+            <ListItem>Claiming an account</ListItem>
+            <ListItem>Uploading Images</ListItem>
+          </UnorderedList>
+          <Text>
+            If you have any requests or issues, feel free to contact at{' '}
+            <Code>help@cosreviews.com</Code>
+          </Text>
+        </Box>
       </Container>
     </Box>
   );
