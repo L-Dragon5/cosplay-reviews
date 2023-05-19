@@ -14,12 +14,15 @@ import {
   MenuList,
   Spacer,
   Stack,
+  Text,
   useColorMode,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
+
+import ModalAccountSettings from '@/components/modules/ModalAccountSettings';
 
 const links = [
   {
@@ -46,17 +49,26 @@ const NavLink = ({ href, children }) => (
 const Navigation = () => {
   const { data: session, status } = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: navIsOpen,
+    onOpen: navOnOpen,
+    onClose: navOnClose,
+  } = useDisclosure();
+  const {
+    isOpen: accountIsOpen,
+    onOpen: accountOnOpen,
+    onClose: accountOnClose,
+  } = useDisclosure();
 
   return (
     <Box bg={useColorModeValue('purple.300', 'purple.900')} px={4}>
       <Flex h={16} alignItems="center" justifyContent="space-between">
         <IconButton
           size="md"
-          icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+          icon={navIsOpen ? <CloseIcon /> : <HamburgerIcon />}
           aria-label="Open Menu"
           display={{ md: 'none' }}
-          onClick={isOpen ? onClose : onOpen}
+          onClick={navIsOpen ? navOnClose : navOnOpen}
         />
         <HStack spacing={8} alignItems="center">
           <Link href="/" _hover={{ textDecoration: 'none' }}>
@@ -74,31 +86,44 @@ const Navigation = () => {
         <Spacer />
 
         {session ? (
-          <Flex alignItems="center">
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded="full"
-                variant="link"
-                cursor="pointer"
-                minW={0}
-              >
-                <Avatar
-                  size="sm"
-                  name={
-                    session?.user?.displayName ?? session?.user?.name ?? null
-                  }
-                  src={session?.user?.image}
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Account Settings</MenuItem>
-                <MenuItem>Theme Settings</MenuItem>
-                <MenuDivider />
-                <MenuItem onClick={signOut}>Logout</MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
+          <>
+            <Flex alignItems="center">
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded="full"
+                  variant="link"
+                  cursor="pointer"
+                  minW={0}
+                >
+                  <Stack direction="row" alignItems="center">
+                    <Text color={useColorModeValue('gray.800', 'gray.200')}>
+                      {session?.user?.displayName ?? session?.user?.name}
+                    </Text>
+                    <Avatar
+                      size="sm"
+                      name={
+                        session?.user?.displayName ??
+                        session?.user?.name ??
+                        null
+                      }
+                      src={session?.user?.image}
+                    />
+                  </Stack>
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={accountOnOpen}>Account Settings</MenuItem>
+                  <MenuItem>Theme Settings</MenuItem>
+                  <MenuDivider />
+                  <MenuItem onClick={signOut}>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+            <ModalAccountSettings
+              isOpen={accountIsOpen}
+              onClose={accountOnClose}
+            />
+          </>
         ) : (
           <Button as={NextLink} href="/api/auth/signin" colorScheme="purple">
             Log in
@@ -115,7 +140,7 @@ const Navigation = () => {
         </IconButton>
       </Flex>
 
-      {isOpen ? (
+      {navIsOpen ? (
         <Box pb={4} display={{ md: 'none' }}>
           <Stack as="nav" spacing={4}>
             {links.map((link) => (
