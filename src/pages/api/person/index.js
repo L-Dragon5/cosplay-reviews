@@ -10,8 +10,8 @@ export default async function handle(req, res) {
     return res.status(200).json(result);
   } else if (req.method === 'GET') {
     const data = await prisma.ReviewablePeople.findMany({
-      where: { isApproved: false, deletedAt: null },
-      orderBy: { createdAt: 'asc' },
+      where: { deletedAt: null },
+      orderBy: [{ isApproved: 'asc' }, { createdAt: 'asc' }],
     });
     return res.status(200).json(JSON.parse(JSON.stringify(data)));
   }

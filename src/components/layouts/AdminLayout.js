@@ -2,7 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 
-import Navigation from '@/components/elements/Navigation';
+import AdminNavigation from '@/components/elements/AdminNavigation';
 
 const AdminLayout = ({ title, children }) => {
   const { data: session, status } = useSession();
@@ -17,12 +17,12 @@ const AdminLayout = ({ title, children }) => {
   }
 
   return (
-    <Flex direction="column" minHeight="100vh" maxHeight="100vh">
+    <Flex minHeight="100vh" maxHeight="100vh">
       <Head>
         <title>{displayTitle}</title>
       </Head>
 
-      <Navigation />
+      <AdminNavigation />
       <Flex direction="column" w="100%" flexGrow="1">
         {children}
       </Flex>

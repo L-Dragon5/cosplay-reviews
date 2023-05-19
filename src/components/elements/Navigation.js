@@ -115,6 +115,14 @@ const Navigation = () => {
                   <MenuItem onClick={accountOnOpen}>Account Settings</MenuItem>
                   <MenuItem>Theme Settings</MenuItem>
                   <MenuDivider />
+                  {session?.user?.role === 'admin' && (
+                    <>
+                      <MenuItem as={NextLink} href="/admin/people">
+                        Admin
+                      </MenuItem>
+                      <MenuDivider />
+                    </>
+                  )}
                   <MenuItem onClick={signOut}>Logout</MenuItem>
                 </MenuList>
               </Menu>
